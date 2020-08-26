@@ -1,6 +1,6 @@
-# my_shop
+# Flutter experiments
 
-A new Flutter project.
+Learning state management with Provider.
 
 ## Getting Started
 
