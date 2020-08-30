@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:my_shop/screens/product_detail_screen.dart';
 import 'package:my_shop/providers/product.dart';
+import 'package:my_shop/providers/cart.dart';
 
 // Provider implementation with consumre to the only
 // bit(ie favorite icon) that will change
@@ -10,6 +11,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(7.0),
@@ -43,7 +45,21 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart),
             color: Theme.of(context).accentColor,
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(product.id, product.price, product.title);
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Added an item to cart'),
+                  duration: Duration(seconds: 3),
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      cart.removeItem(product.id);
+                    },
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ), 
